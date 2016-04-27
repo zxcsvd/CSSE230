@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;drawPanel&apos; to &apos;DrawPanel&apos;&#x0D;&#x0A;- Original project: &apos;Displayable&apos;&#x0D;&#x0A;- Original element: &apos;drawPanel&apos;&#x0D;&#x0A;- Renamed element: &apos;DrawPanel&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;drawPanel&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{drawPanel.java[drawPanel" matchStrategy="1" name="DrawPanel" qualified="false" references="true" similarDeclarations="false" stamp="1396829410189" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>unknown</groupId>
+  <artifactId>unknown</artifactId>
+  <version>0.0.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20150520.013252</timestamp>
+      <buildNumber>10387</buildNumber>
+    </snapshot>
+    <lastUpdated>20150520013252</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <classifier>ovrd-freq</classifier>
+        <extension>zip</extension>
+        <value>0.0.0-20150520.013252-10387</value>
+        <updated>20150520013252</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>ctor-freq</classifier>
+        <extension>zip</extension>
+        <value>0.0.0-20150520.013110-10386</value>
+        <updated>20150520013110</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>freq</classifier>
+        <extension>zip</extension>
+        <value>0.0.0-20150520.012601-10385</value>
+        <updated>20150520012601</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

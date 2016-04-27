@@ -1,0 +1,221 @@
+package circularQueue;
+
+import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
+
+/**
+ * A circular queue that grows as needed.
+ * 
+ * @author Matt Boutell and <<<Zach Hull, and Bo Peng>>>
+ * @param <T>
+ */
+public class GrowableCircularArrayQueue<T> {
+	private static final int INITIAL_CAPACITY = 5;
+	private T[] array;
+	private Class<T> type;
+	//Pos of next dequeue
+	private int head=0;
+	//current size
+	private int numElements=0;
+	//current capacity of array
+	private int currentCap=5;
+
+	/**
+	 * Creates an empty queue with an initial capacity of 5
+	 * 
+	 * @param type
+	 *            So that an array of this type can be constructed.
+	 */
+	public GrowableCircularArrayQueue(Class<T> type) {
+		this.type = type;
+		// This is a workaround due to a limitation Java has with
+		// constructing generic arrays.
+		this.array =  (T[]) Array.newInstance(this.type, INITIAL_CAPACITY);
+	}
+
+
+	/**
+	 * Removes all the items from this queue and everything back to the initial
+	 * state, including setting its capacity back to the initial capacity.
+	 */
+	public void clear() {
+		// DONE: implement this method
+		for (int i = 0; i < this.array.length; i++) {
+			this.array[i] = null;
+		}
+		this.numElements=0;
+	}
+
+	private void resize() {
+		// You'll want to write this helper method.
+		this.currentCap *= 2;
+
+		T[] tempArray = (T[]) Array.newInstance(this.type,
+				this.currentCap);
+		int counter = 0;
+		for (int i = this.head; i < this.array.length; i++) {
+			tempArray[counter] = this.array[i];
+			counter++;
+		}
+		if (this.head != 0) {
+			for (int j = 0; j < this.head; j++) {
+				tempArray[counter] = this.array[j];
+				counter++;
+			}
+		}
+		this.array = tempArray;
+		this.head=0;
+	}
+
+	/**
+	 * Adds the given item to the tail of the queue, resizing the internal array
+	 * if needed.
+	 * 
+	 * @param item
+	 */
+	public void enqueue(T item) {
+		// DONE: implement this method
+		if(this.numElements==this.currentCap){
+			this.resize();
+			this.array[this.numElements]=item;
+			this.numElements++;
+			return;
+		}
+		
+		int i = this.head;
+		
+		boolean found = true;
+		
+		while(found){
+		
+			if(this.array[i]==null){
+				this.array[i]=item;
+				found=false;
+				break;
+			}else{
+				i++;
+			}
+			if(i == this.currentCap){
+				i=0;
+			}
+		}
+		this.numElements++;
+
+	}
+
+	/**
+	 * Removes and returns the item at the head of the queue.
+	 * 
+	 * @return The item at the head of the queue.
+	 * @throws NoSuchElementException
+	 *             If the queue is empty.
+	 */
+	public T dequeue() {
+		// DONE: implement this method
+		if (this.isEmpty()) {
+			throw new NoSuchElementException("The queue is empty, there is nothing to dequeue.");
+		}
+		
+		T temp = this.array[this.head];
+		this.array[this.head] = null;
+		this.head++;
+		if (this.head == this.currentCap) {
+			this.head = 0;
+		}
+		this.numElements--;
+		
+		return temp;
+	}
+
+	/**
+	 * Returns the item at the head of the queue without mutating the queue.
+	 * 
+	 * @return The item at the head of the queue.
+	 * @throws NoSuchElementException
+	 *             If the queue is empty.
+	 */
+	public T peek() throws NoSuchElementException {
+		// DONE: implement this method
+		if(this.isEmpty()){
+			throw new NoSuchElementException();
+		}else{
+			return this.array[this.head];
+		}
+	}
+
+	/**
+	 * @return True if and only if the queue contains no items.
+	 */
+	public boolean isEmpty() {
+		// DONE: implement this method
+		if(this.numElements==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * @return The number of items in this queue.
+	 */
+	public int size() {
+		// DONE: implement this method
+		return this.numElements;
+	}
+
+	/**
+	 * Searches for the given item in this queue.
+	 * 
+	 * @param item
+	 * @return True if the item is contained within the queue.
+	 */
+	public boolean contains(T item) {
+		// DONE: implement this method
+		for (int i = 0; i < this.currentCap; i++) {
+			if (this.array[i] == item) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Displays the contents of the queue in insertion order, with the
+	 * most-recently inserted one last, in other words, not wrapped around. Each
+	 * adjacent pair will be separated by a comma and a space, and the whole
+	 * contents will be bounded by square brackets. See the unit tests for
+	 * examples.
+	 */
+	@Override
+	public String toString() {
+		// DONE: implement this method
+		String returnString = "";
+		if (this.isEmpty()) {
+			return "[]";
+		}
+		
+		for (int i = this.head; i < this.currentCap; i++) {
+			if (this.array[i] == null) {
+				break;
+			}
+			if (i == this.head) {
+				returnString += this.array[i].toString();
+			}
+			else {
+				returnString += ", " + this.array[i].toString();
+			}
+			
+		}
+		if (this.head != 0) {
+			for (int j = 0; j < this.head; j++) {
+				if (this.array[j] != null) {
+					returnString += ", " + this.array[j].toString();
+				}
+			}
+		}
+		
+		return "[" + returnString + "]";
+	}
+
+}

@@ -1,0 +1,28 @@
+import java.util.Iterator;
+
+
+public class AVLTree  <T extends Comparable<? super T>> implements Iterable<T>{
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean insert(int i) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int getRotationCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int remove(int i) {
+		return i;
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

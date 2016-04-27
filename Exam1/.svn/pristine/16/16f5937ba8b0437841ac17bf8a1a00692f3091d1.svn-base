@@ -1,0 +1,21 @@
+import java.util.ArrayList;
+
+/**
+ * Gets the depth of each character in this String in the format described in
+ * the written spec.
+ * 
+ * @author Matt Boutell. Created 29 March 2014.
+ */
+public class Huffman {
+
+	public static String getDepthsFromParentheses(String input) {
+		// Adding the characters/depth Strings to the array list and converting
+		// it to a String will handle the formatting of the commas and brackets,
+		// as you know.
+		ArrayList<String> characterDepths = new ArrayList<String>();
+		// TODO: Complete this.
+
+		return characterDepths.toString();
+	}
+
+}

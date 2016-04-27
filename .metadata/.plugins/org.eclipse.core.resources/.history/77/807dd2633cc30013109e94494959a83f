@@ -1,0 +1,105 @@
+package editortrees;
+
+// A node in a height-balanced binary tree with rank.
+// Except for the NULL_sNODE (if you choose to use one), one node cannot
+// belong to two different trees.
+
+public class Node {
+
+	enum Code {
+		SAME, LEFT, RIGHT
+	};
+
+	// The fields would normally be private, but for the purposes of this class,
+	// we want to be able to test the results of the algorithms in addition to
+	// the
+	// "publicly visible" effects
+
+	char element;
+	Node left, right; // subtrees
+	int rank; // inorder position of this node within its own subtree.
+	Code balance;
+	Node parent; // You may want this field.
+	private final Node NULL_NODE = new Node();
+
+	// Feel free to add other fields that you find useful
+
+	// You will probably want to add several other methods
+	Node() {
+		this.element = '\0';
+		this.left = null;
+		this.right = null;
+		this.rank = -1;
+		this.balance = Code.SAME;
+		this.parent = null;
+	}
+
+	Node(char element, Node left, Node right, int rank, Code balance,
+			Node parent) {
+		this.element = element;
+		this.left = left;
+		this.right = right;
+		this.rank = rank;
+		this.balance = balance;
+		this.parent = parent;
+	}
+
+	// For the following methods, you should fill in the details so that they
+	// work correctly
+	public int height() {
+		// TODO Milestone 1
+		if (this == NULL_NODE) {
+			return -1;
+		}
+		return Math.max(left.height() + 1, right.height() + 1);
+	}
+
+	public int size() {
+		if (this == null) {
+			return 0;
+		} else {
+			return 1 + this.left.size() + this.right.size();
+		}
+	}
+
+	public void add(char c, int pos) throws IndexOutOfBoundsException {
+		// TODO: Milestone 1
+		if (pos > this.rank) {
+			if (this.right == null) {
+				this.right = new Node(c, null, null, pos, Code.SAME, this);
+			} else {
+				this.right.add(c, pos);
+			}
+		} else if (pos < this.rank) {
+			if (this.left == null) {
+				this.left = new Node(c, null, null, pos, Code.SAME, this);
+			} else {
+				this.left.add(c, pos);
+			}
+		} else {
+			throw new IndexOutOfBoundsException();
+		}
+	}
+
+	public void add(char c) {
+		// TODO: Milestone 1
+		if (this.right == null) {
+			this.right = new Node(c, null, null, this.rank + 1, Code.SAME, this);
+		} else {
+			this.right.add(c);
+		}
+
+	}
+
+	public void rotate() {
+		if (this.balance == Code.SAME) {
+			this.parent.rotate();
+		} else if (this.balance == Code.LEFT) {
+			Node temp = this;
+
+		} else if (this.balance == Code.RIGHT) {
+
+		}
+	}
+
+}

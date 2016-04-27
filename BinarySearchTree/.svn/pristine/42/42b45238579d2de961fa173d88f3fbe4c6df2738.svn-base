@@ -1,0 +1,62 @@
+
+
+
+public class BinarySearchTree<T> {
+	private BinaryNode root;
+
+	private final BinaryNode NULL_NODE = new BinaryNode();
+
+	public BinarySearchTree() {
+		root = NULL_NODE;
+	}
+
+	// For manual tests only
+	void setRoot(BinaryNode n) {
+		this.root = n;
+	}
+	
+	// Not private, since we need access for manual testing.
+	class BinaryNode {
+		private T data;
+		private BinaryNode left;
+		private BinaryNode right;
+
+		public BinaryNode() {
+			this.data = null;
+			this.left = null;
+			this.right = null;
+		}
+
+		public BinaryNode(T element) {
+			this.data = element;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+		public T getData() {
+			return this.data;
+		}
+
+		public BinaryNode getLeft() {
+			return this.left;
+		}
+
+
+		public BinaryNode getRight() {
+			return this.right;
+		}
+
+		// For manual testing
+		public void setLeft(BinaryNode left) {
+			this.left = left;
+		}
+		
+		public void setRight(BinaryNode right) {
+			this.right = right;
+		}
+		
+	}
+
+	// TODO: Implement your 3 iterator classes here.
+
+}

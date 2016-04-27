@@ -1,0 +1,91 @@
+import java.util.ArrayList;
+
+/**
+ * An implementation of the Priority Queue interface using an array list.
+ * 
+ * @author Matt Boutell and <<TODO: Your name here>>>. Created Mar 29, 2014.
+ * 
+ * @param <T>
+ *            Generic type of PQ elements
+ */
+public class ArrayListMinPQ<T extends Comparable<T>> {
+	// Requirement: You must use this instance variable without changes.
+	private ArrayList<T> items;
+	private Boolean set = false;
+	private ArrayList<T> copy;
+	private T current = null;
+	private T first = null;
+	int index = 0;
+	int status = 0;
+	public ArrayListMinPQ() {
+		
+		this.items = new ArrayList<T>();
+	}
+
+	public T peekMin() {
+		// TODO: implement
+		return null;
+	}
+
+	public T removeMin() {
+		copy = new ArrayList<T>();
+
+		if(items.isEmpty()){
+			return null;
+		}
+		else{
+			T remove = items.get(0);
+			items.set(0, null);
+			
+			for(int i=1; i<items.size();i++){
+				
+				copy.add(items.get(i));
+			}
+			items = copy;
+			return remove;
+		}
+		
+	}
+
+	public void insert(T item) {
+		index = 0;
+		copy = new ArrayList<T>();
+		if(items.isEmpty()){
+			
+			items.add(item);
+		}
+		else{
+			while(item.compareTo(items.get(index)) >0){
+				index++;
+				if(index == items.size()){
+					items.add(item);
+					return;
+					
+				}
+
+			}
+			for(int i= index; i<items.size();i++){
+				copy.add(items.get(i));
+			}
+			items.set(index, item);
+			items.add(item);
+			for(int i= 0; i<copy.size();i++){
+				items.set(index+i+1, copy.get(i));
+			}
+			
+		
+		}
+	}
+
+	public int size() {
+		return this.items.size();
+	}
+
+	public boolean isEmpty() {
+		return this.items.isEmpty();
+	}
+
+	public void clear() {
+		this.items  = new ArrayList<T>();
+	}
+}

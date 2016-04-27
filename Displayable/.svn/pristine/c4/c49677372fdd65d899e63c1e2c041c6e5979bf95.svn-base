@@ -1,0 +1,78 @@
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+/**
+ * A wrapper class for binary trees that can display the wrapped tree in a
+ * window.
+ * 
+ * @author Curt Clifton. Created Jan 24, 2008.
+ */
+public class DisplayableBinaryTree {
+
+	private int width;
+	private int height;
+	private static int margin = 0;
+	private JFrame window = new JFrame();
+	private BinaryTree tree;
+	private int radius;
+
+	/**
+	 * Constructs a new displayable binary tree, set to default to the given
+	 * window size for display.
+	 * 
+	 * @param tree
+	 * @param windowWidth
+	 *            in pixels
+	 * @param windowHeight
+	 *            in pixels
+	 */
+	public DisplayableBinaryTree(BinaryTree tree, int windowWidth,
+			int windowHeight) {
+		
+		this.width = windowWidth;
+		this.height = windowHeight;
+		this.tree = tree;
+		
+		// TODO Auto-generated constructor stub.
+	}
+
+	/**
+	 * Creates a new window, using the current size information stored in this,
+	 * and renders the current state of the tree wrapped by this.
+	 */
+	public void display() {
+		this.window.setSize(this.width, this.height);
+		this.margin= Math.min(this.width/8, this.height/8);
+		this.radius = ((Math.min(width, height))-2*this.margin)/(Math.max( this.tree.getHeight()+1, BinaryNode.leaves(this.tree.getRoot())));
+		
+//		System.out.println(this.margin + " "+ this.tree.getHeight() + " "+BinaryNode.leaves(this.tree.getRoot()) + " " +this.radius);
+//		
+		ArrayList<BinaryNode> treeList = this.tree.getRoot().inOrderList();
+		DrawPanel panel = new DrawPanel(treeList, this.margin, this.radius);
+
+		
+		
+		this.window.add(panel);
+		this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		this.window.setVisible(true);
+
+	}
+
+	/**
+	 * Sets the default size for the next window displayed.
+	 * 
+	 * @param windowWidth
+	 *            in pixels
+	 * @param windowHeight
+	 *            in pixels
+	 */
+	public void setSize(int windowWidth, int windowHeight) {
+		this.width = windowWidth;
+		this.height = windowHeight;
+	}
+
+}

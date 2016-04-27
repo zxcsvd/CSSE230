@@ -1,0 +1,15 @@
+
+public class LoginInfo {
+	private static String username = "";
+	private static int userType = 0;
+	public static String userInfo(){
+		return username;
+	}
+	public static void setInfo (String u){
+		username = u;
+	}
+	
+	public static void setType (int  u){
+		userType = u;
+	}
+}

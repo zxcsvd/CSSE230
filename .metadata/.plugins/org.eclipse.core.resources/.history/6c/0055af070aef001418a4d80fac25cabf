@@ -1,0 +1,93 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+
+public class Result extends JFrame{
+
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Result window = new Result();
+//					window.frmResult.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 * @param selected 
+	 * @param string 
+	 */
+	public Result(String string, String selected) {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	public void close(){
+		this.setVisible(false);
+	}
+	private void initialize() {
+		this.setTitle("Result");
+		this.setBounds(100, 100, 365, 555);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		JList list_1 = new JList();
+		list_1.setBounds(343, 86, 1, 1);
+		this.getContentPane().add(list_1);
+		
+		JList resultList = new JList();
+		resultList.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		resultList.setBounds(69, 74, 210, 316);
+		this.getContentPane().add(resultList);
+		
+		JButton btnView = new JButton("View");
+		btnView.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				dispose();
+			}
+			
+		});
+		btnView.setBounds(202, 420, 116, 41);
+		this.getContentPane().add(btnView);
+		
+		JLabel lblNewLabel = new JLabel("Result");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(32, 39, 54, 15);
+		this.getContentPane().add(lblNewLabel);
+		
+		JButton btnSearchAgain = new JButton("Search Again");
+		btnSearchAgain.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnSearchAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchAlbum window = new SearchAlbum();
+				close();
+				dispose();
+				
+			}
+		});
+		btnSearchAgain.setBounds(43, 420, 116, 41);
+		this.getContentPane().add(btnSearchAgain);
+	}
+}

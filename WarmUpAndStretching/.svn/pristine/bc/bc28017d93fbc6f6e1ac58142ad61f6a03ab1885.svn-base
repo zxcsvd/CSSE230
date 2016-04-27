@@ -1,0 +1,25 @@
+package adder;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JTextField;
+
+
+
+public class CButtonListener implements ActionListener{
+	public JTextField textField;
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.textField.setText("0");
+		
+	}
+	
+	public CButtonListener(JTextField textField) {
+		this.textField = textField;
+		
+	}
+	
+	
+}

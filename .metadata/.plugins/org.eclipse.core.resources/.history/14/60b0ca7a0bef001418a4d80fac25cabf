@@ -1,0 +1,85 @@
+import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Procedures {
+	  String connectionUrl = "jdbc:sqlserver://titan.csse.rose-hulman.edu:1433;" +
+	 	         "databaseName=metal;user=zhangb2;password=Hyhy5920!";
+	  Connection con = null;
+	  Statement stmt = null;
+	  ResultSet rs = null;
+	  
+	   
+	  public String login(String username, String password){
+		  
+		  try {
+			  Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+			  Matcher m = p.matcher(username+password);
+			  boolean b = m.find();
+
+			  if (b){
+				  throw new Exception("username or password contains special characters");
+			  }
+			     
+			  
+	         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	         con = DriverManager.getConnection(connectionUrl);
+	         String SQL = "SELECT Name FROM [User] WHERE Username = '" + username + "' and Password = '" + password + "' ";
+
+//	         System.out.print(SQL);
+	         stmt = con.createStatement();
+	         rs = stmt.executeQuery(SQL);
+	        	
+	         while (rs.next()) {
+		          return (rs.getString(1));
+		     }
+
+	         String temp = "No valid username/password found!";
+	         return temp;
+	      }
+		  
+	      catch (Exception e) {
+//	         e.printStackTrace();
+	      }
+	      finally {
+	         if (rs != null) try { rs.close(); } catch(Exception e) {}
+	         if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+	         if (con != null) try { con.close(); } catch(Exception e) {}
+	      }
+		return "Error! username or password contains special characters.";
+	   }
+	  public ResultSet Search (String keyword, String type){
+		  
+		  try {
+			  Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+			  Matcher m = p.matcher(keyword);
+			  boolean b = m.find();
+
+			  if (b){
+				  throw new Exception("keyword contains special characters");
+			  }
+			     
+			  
+	         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	         con = DriverManager.getConnection(connectionUrl);
+	         String SQL = "SELECT * FROM [" + type + "] WHERE charindex ('" + keyword + "',Name) != 0";
+
+//	         System.out.print(SQL);
+	         stmt = con.createStatement();
+	         rs = stmt.executeQuery(SQL);
+	         return rs;
+	      }
+		  
+	      catch (Exception e) {
+	    	  System.out.print(e);
+//	         e.printStackTrace();
+	      }
+	      finally {
+	         if (rs != null) try { rs.close(); } catch(Exception e) {}
+	         if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+	         if (con != null) try { con.close(); } catch(Exception e) {}
+	      }
+		return rs;
+	   }
+	}
+

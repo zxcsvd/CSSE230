@@ -1,0 +1,710 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+
+public class NavigationFrame extends JFrame {
+	public Hashtable<String, Location> mapInformation = new Hashtable<String, Location>();
+	private JPanel contentPane;
+	private JTextField txtDestination;
+	private JTextField txtWhereYouAre;
+	private ArrayList<Point2D> clickedpt;
+	private Line2D.Double lineToDraw;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	
+	public static void main(String[] args) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NavigationFrame frame = new NavigationFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/**
+	 * Create the frame.
+	 */
+	public NavigationFrame() {
+		loadMapInformation();
+		clickedpt = new ArrayList<Point2D>();
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1000, 650);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		Image img = new ImageIcon(this.getClass().getResource("/disneyland_map.png")).getImage();
+		lblNewLabel.setIcon(new ImageIcon(img));
+		lblNewLabel.setBounds(34, 63, 750, 420);
+		lblNewLabel.addMouseListener(new MouseListener(){
+		
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				Point2D.Double newpt = new Point2D.Double(x,y);
+				clickedpt.add(newpt);
+				if(clickedpt.size() == 2){
+					
+					drawLine(clickedpt);
+					clickedpt.clear();
+				}
+				//System.out.println(clickedpt);
+			}
+
+			public void drawLine(ArrayList<Point2D> points) {
+				Location pointA = mapInformation.get("UFO");
+				Location pointB = mapInformation.get("UFO");
+				for(String key : mapInformation.keySet()){
+					Location tempLocation = mapInformation.get(key);
+					double driftErrorA = findDistance(points.get(0), pointA.getCoordinate());
+					double driftErrorB = findDistance(points.get(1), pointB.getCoordinate());
+					if(driftErrorA > findDistance(points.get(0), tempLocation.getCoordinate()) ){
+						if(!tempLocation.isCross)
+							pointA = tempLocation;
+					}
+					if(driftErrorB > findDistance(points.get(1), tempLocation.getCoordinate()) ){
+						if(!tempLocation.isCross)
+							pointB = tempLocation;
+					}
+				}
+				txtDestination.setText(pointB.getName());
+				System.out.println(pointA.getX() + " " +  pointA.getY());
+				System.out.println(pointB.getX() + " " +  pointB.getY());
+				
+				
+				Point2D.Double a =  new Point2D.Double(pointA.getX() + 34, pointA.getY() + 90);
+				Point2D.Double b =  new Point2D.Double(pointB.getX() + 34, pointB.getY() + 90);
+				Line2D.Double line = new Line2D.Double(a, b);
+				lineToDraw = line;
+				
+				repaint();
+//				DrawComponent component = new DrawComponent();
+//				component.add(line);
+				return;
+				
+				
+			}
+
+			public double findDistance(Point2D point, Coordinate c){
+				int cx = c.getX();
+				int cy = c.getY();
+				int px = (int)point.getX();
+				int py = (int)point.getY();
+				double result = Math.sqrt((Math.pow(cx-px, 2.0) + Math.pow(cy-py, 2.0)));
+				return result;
+			}
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub.
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub.
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub.
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub.
+				
+			}
+			
+		});
+		contentPane.add(lblNewLabel);
+		
+		JButton btnNewButton = new JButton("Detele attraction");
+		btnNewButton.setFont(new Font("Lato", Font.PLAIN, 15));
+		btnNewButton.setBounds(807, 439, 156, 44);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Route by time");
+		btnNewButton_1.setFont(new Font("Lato", Font.PLAIN, 15));
+		btnNewButton_1.setBounds(221, 518, 156, 57);
+		contentPane.add(btnNewButton_1);
+		
+		txtDestination = new JTextField();
+		txtDestination.setFont(new Font("Lato", Font.PLAIN, 15));
+		txtDestination.setText("Destination");
+		txtDestination.setBounds(807, 63, 156, 44);
+		contentPane.add(txtDestination);
+		txtDestination.setColumns(10);
+		
+		JList list = new JList();
+		list.setBounds(807, 117, 144, 254);
+		contentPane.add(list);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(951, 117, 17, 254);
+		contentPane.add(scrollBar);
+		
+		JButton btnRouteByDistance = new JButton("Route by distance");
+		btnRouteByDistance.setFont(new Font("Lato", Font.PLAIN, 15));
+		btnRouteByDistance.setBounds(387, 518, 221, 57);
+		contentPane.add(btnRouteByDistance);
+		
+		JButton btnRouteByRate = new JButton("Route by rate");
+		btnRouteByRate.setFont(new Font("Lato", Font.PLAIN, 15));
+		btnRouteByRate.setBounds(628, 518, 156, 57);
+		contentPane.add(btnRouteByRate);
+		
+		txtWhereYouAre = new JTextField();
+		txtWhereYouAre.setFont(new Font("Lato", Font.PLAIN, 15));
+		txtWhereYouAre.setText("Where you are?");
+		txtWhereYouAre.setBounds(34, 519, 179, 57);
+		contentPane.add(txtWhereYouAre);
+		txtWhereYouAre.setColumns(10);
+		
+		JButton btnRouteAll = new JButton("Play all of them!");
+		btnRouteAll.setFont(new Font("Lato", Font.PLAIN, 15));
+		btnRouteAll.setBounds(807, 518, 156, 57);
+		contentPane.add(btnRouteAll);
+		
+		JButton button = new JButton("Add attraction");
+		button.setFont(new Font("Lato", Font.PLAIN, 15));
+		button.setBounds(807, 381, 156, 44);
+		contentPane.add(button);
+	}
+
+
+	public void paint (Graphics g) {
+        super.paint(g);  // fixes the immediate problem.
+        Graphics2D g2 = (Graphics2D) g;
+        int cap = BasicStroke.CAP_BUTT;
+        int join = BasicStroke.JOIN_MITER;
+        BasicStroke thick = new BasicStroke(10,cap,join);
+        g2.setStroke(thick);
+        g2.setColor(Color.RED);
+        //Line2D lin = new Line2D.Float(100, 100, 250, 260);
+        if(lineToDraw!=null){
+        	g2.draw(lineToDraw);
+        }
+
+	}
+	
+	public LinkedList<Location> searchroute(String start, String end){
+		final LinkedList<Location> answer = new LinkedList<Location>();
+		
+		final Queue<Location> openQueue = new PriorityQueue<Location>(80, new NodeComparator()); 
+		Location startpoint = mapInformation.get(start);
+		Location endpoint = mapInformation.get(end);
+		openQueue.add(startpoint);
+		final Set<Location> closedList = new HashSet<Location>();
+		while (!openQueue.isEmpty()){
+			Location current = openQueue.poll();
+			current.calcguess(endpoint);
+			if (current.name.equals(end)){
+				while(true){
+					answer.add(current);
+					if (current.father==startpoint){
+						break;
+					}
+					
+					current = current.father;
+				}
+				answer.add(startpoint);
+				return answer;
+			}
+			closedList.add(current);
+			Set<Entry<String, Location>> entrySet = current.nearByLocation.entrySet();
+			for (Entry a :entrySet){
+				Location neighbor = (Location) a.getValue();
+				neighbor.calcguess(endpoint);
+				if (neighbor.father==null){
+					neighbor.father=current;
+				}
+				if (closedList.contains(neighbor)) continue;
+				int temx = neighbor.c.x;
+		    	int temy = neighbor.c.y;
+		    	int rx   = current.c.x;
+		    	int ry   = current.c.y;
+		    	
+		        double distance = Math.sqrt(Math.pow(Math.abs(temx-rx),2)+Math.pow(Math.abs(temy-ry),2));
+		        double total = distance +neighbor.getguess();
+		        neighbor.settotal(total);
+		        if (!openQueue.contains(neighbor)) {
+                    openQueue.add(neighbor);
+                }
+			}
+		}
+		return null;
+	}
+	 public class NodeComparator implements Comparator<Location> {
+	        public int compare(Location nodeFirst, Location nodeSecond) {
+	            if (nodeFirst.gettotal() > nodeSecond.gettotal()) return 1;
+	            if (nodeSecond.gettotal() > nodeFirst.gettotal()) return -1;
+	            return 0;
+	        }
+	    } 
+	public void loadMapInformation() {
+		/*
+		
+		TODO: Should be done by loadFile later on!
+		
+		*/
+		Location A1 = new Location(new Coordinate(420, 360), "Main Street USA", false);
+		Location A2 = new Location(new Coordinate(240, 340), "Adventureland", false);
+		Location A3 = new Location(new Coordinate(140, 260), "New Orleans Square", false);
+		Location A4 = new Location(new Coordinate(80, 180), "Center Country", false);
+		Location A5 = new Location(new Coordinate(290, 200), "Frontierland", false);
+		Location A6 = new Location(new Coordinate(550, 230), "Tomorrowland", false);
+		Location A7 = new Location(new Coordinate(460, 180), "Fantasyland", false);
+		Location A8 = new Location(new Coordinate(470, 40), "Mickey's Toontown", false);
+		Location A9 = new Location(new Coordinate(280, 100), "SubCar", false);
+		Location A10 = new Location(new Coordinate(230, 240), "SubShip", false);
+		Location A11 = new Location(new Coordinate(430, 80), "SubShield", false);
+		Location A12 = new Location(new Coordinate(380, 200), "SubCamp", false);
+		Location A13 = new Location(new Coordinate(380, 260), "SubStone", false);
+		Location A14 = new Location(new Coordinate(380, 380), "SubGate", false);
+		Location A15 = new Location(new Coordinate(620, 200), "SubFountain", false);
+		Location A16 = new Location(new Coordinate(720, 200), "Station1", false);
+		Location A17 = new Location(new Coordinate(110, 290), "Station2", false);
+		Location A18 = new Location(new Coordinate(420, 380), "Station3", false);
+		Location A19 = new Location(new Coordinate(550, 180), "Fall", false);
+		Location A20 = new Location(new Coordinate(620, 280), "UFO", false);
+		Location A21 = new Location(new Coordinate(420, 420), "Gate", false);
+		Location C1 = new Location(new Coordinate(277, 77), "Cross1", true);
+		Location C2 = new Location(new Coordinate(90, 142), "Cross2", true);
+		Location C3 = new Location(new Coordinate(128, 192), "Cross3", true);
+		Location C4 = new Location(new Coordinate(120, 216), "Cross4", true);
+		Location C5 = new Location(new Coordinate(270, 118), "Cross5", true);
+		Location C6 = new Location(new Coordinate(244, 155), "Cross6", true);
+		Location C7 = new Location(new Coordinate(330, 220), "Cross7", true);
+		Location C8 = new Location(new Coordinate(246, 266), "Cross8", true);
+		Location C9 = new Location(new Coordinate(280, 280), "Cross9", true);
+		Location C10 = new Location(new Coordinate(237, 314), "Cross10", true);
+		Location C11 = new Location(new Coordinate(222, 377), "Cross11", true);
+		Location C12 = new Location(new Coordinate(420, 400), "Cross12", true);
+		Location C13 = new Location(new Coordinate(607, 378), "Cross13", true);
+		Location C14 = new Location(new Coordinate(688, 303), "Cross14", true);
+		Location C15 = new Location(new Coordinate(723, 253), "Cross15", true);
+		Location C16 = new Location(new Coordinate(617, 252), "Cross16", true);
+		Location C17 = new Location(new Coordinate(431, 254), "Cross17", true);
+		Location C18= new Location(new Coordinate(390, 240), "Cross18", true);
+		Location C19 = new Location(new Coordinate(452, 201), "Cross19", true);
+		Location C20 = new Location(new Coordinate(396, 143), "Cross20", true);
+		Location C21 = new Location(new Coordinate(384, 122), "Cross21", true);
+		Location C22 = new Location(new Coordinate(474, 134), "Cross22", true);
+		Location C23 = new Location(new Coordinate(503, 167), "Cross23", true);
+		Location C24 = new Location(new Coordinate(577, 170), "Cross24", true);
+		Location C25 = new Location(new Coordinate(709, 136), "Cross25", true);
+		Location C26 = new Location(new Coordinate(651, 98), "Cross26", true);
+		Location C27 = new Location(new Coordinate(595, 83), "Cross27", true);
+		Location C28 = new Location(new Coordinate(594, 97), "Cross28", true);
+		Location C29 = new Location(new Coordinate(538, 105), "Cross29", true);
+		Location C30 = new Location(new Coordinate(488, 80), "Cross30", true);
+		Location C31 = new Location(new Coordinate(390, 400), "Cross31", true);
+		Location C32 = new Location(new Coordinate(460, 400), "Cross32", true);
+		ArrayList<Location> temp = new ArrayList<Location>();
+		
+		temp.add(C17);
+		temp.add(A14);
+		temp.add(A18);
+		A1.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C10);
+		A2.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C4);
+		temp.add(A17);
+		temp.add(A10);
+		A3.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C2);
+		temp.add(C3);
+		A4.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A10);
+		temp.add(C6);
+		temp.add(C7);
+		A5.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C17);
+		temp.add(A15);
+		temp.add(C16);
+		A6.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C19);
+		temp.add(C22);
+		A7.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C30);
+		A8.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C1);
+		temp.add(C5);
+		A9.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C8);
+		temp.add(A5);
+		temp.add(A3);
+		A10.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C30);
+		A11.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C20);
+		temp.add(C7);
+		temp.add(C18);
+		temp.add(C19);
+		A12.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C7);
+		temp.add(C9);
+		temp.add(C18);
+		A13.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A1);
+		temp.add(A18);
+		A14.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C24);
+		temp.add(A19);
+		temp.add(A6);
+		temp.add(C16);
+		temp.add(A16);
+		A15.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C15);
+		temp.add(C25);
+		temp.add(A15);
+		A16.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A3);
+		temp.add(C11);
+		A17.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C31);
+		temp.add(C32);
+		temp.add(C12);
+		temp.add(A1);
+		temp.add(A14);
+		A18.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C19);
+		temp.add(C28);
+		temp.add(A15);
+		A19.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C16);
+		A20.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C31);
+		temp.add(C32);
+		A21.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C2);
+		temp.add(A9);
+		C1.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C1);
+		temp.add(A4);
+		C2.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A4);
+		temp.add(C4);
+		C3.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C3);
+		temp.add(A3);
+		C4.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C6);
+		temp.add(C21);
+		temp.add(A9);
+		C5.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C5);
+		temp.add(A5);
+		C6.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A5);
+		temp.add(A12);
+		temp.add(A13);
+		C7.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C9);
+		temp.add(A10);
+		C8.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C8);
+		temp.add(C10);
+		temp.add(A13);
+		C9.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C9);
+		temp.add(A2);
+		C10.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A17);
+		temp.add(C12);
+		C11.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C11);
+		temp.add(C13);
+		C12.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C12);
+		temp.add(C14);
+		C13.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C13);
+		temp.add(C15);
+		C14.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C14);
+		temp.add(A16);
+		C15.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A6);
+		temp.add(A15);
+		temp.add(A20);
+		C16.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A1);
+		temp.add(A6);
+		temp.add(C19);
+		temp.add(C18);
+		C17.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C17);
+		temp.add(C19);
+		temp.add(A12);
+		temp.add(A13);
+		C18.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C17);
+		temp.add(C23);
+		temp.add(C18);
+		temp.add(C22);
+		temp.add(A12);
+		temp.add(A19);	
+		temp.add(A7);
+		C19.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C21);
+		temp.add(C22);
+		temp.add(A12);
+		C20.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C20);
+		temp.add(C5);
+		C21.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C21);
+		temp.add(C29);
+		temp.add(A7);
+		C22.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C19);
+		temp.add(C29);
+		temp.add(A19);
+		C23.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C29);
+		temp.add(A15);
+		C24.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C29);
+		temp.add(A16);
+		C25.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C25);
+		temp.add(C27);
+		C26.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C26);
+		temp.add(C28);
+		C27.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C27);
+		temp.add(C29);
+		C28.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C23);
+		temp.add(C24);
+		temp.add(C28);
+		temp.add(C30);
+		temp.add(C32);
+		C29.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(A8);
+		temp.add(A11);
+		C30.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C32);
+		temp.add(A18);
+		C31.setNearByLocation(temp);
+		temp.clear();
+		
+		temp.add(C31);
+		temp.add(A18);
+		C32.setNearByLocation(temp);
+		temp.clear();
+			
+		mapInformation.put(A1.getName(), A1);
+		mapInformation.put(A2.getName(), A2);
+		mapInformation.put(A3.getName(), A3);
+		mapInformation.put(A4.getName(), A4);
+		mapInformation.put(A5.getName(), A5);
+		mapInformation.put(A6.getName(), A6);
+		mapInformation.put(A7.getName(), A7);
+		mapInformation.put(A8.getName(), A8);
+		mapInformation.put(A9.getName(), A9);
+		mapInformation.put(A10.getName(), A10);
+		mapInformation.put(A11.getName(), A11);
+		mapInformation.put(A12.getName(), A12);
+		mapInformation.put(A13.getName(), A13);
+		mapInformation.put(A14.getName(), A14);
+		mapInformation.put(A15.getName(), A15);
+		mapInformation.put(A16.getName(), A16);
+		mapInformation.put(A17.getName(), A17);
+		mapInformation.put(A18.getName(), A18);
+		mapInformation.put(A19.getName(), A19);
+		mapInformation.put(A20.getName(), A20);
+		mapInformation.put(A21.getName(), A21);
+		mapInformation.put(C1.getName(), C1);
+		mapInformation.put(C2.getName(), C2);
+		mapInformation.put(C3.getName(), C3);
+		mapInformation.put(C4.getName(), C4);
+		mapInformation.put(C5.getName(), C5);
+		mapInformation.put(C6.getName(), C6);
+		mapInformation.put(C7.getName(), C7);
+		mapInformation.put(C8.getName(), C8);
+		mapInformation.put(C9.getName(), C9);
+		mapInformation.put(C10.getName(), C10);
+		mapInformation.put(C11.getName(), C11);
+		mapInformation.put(C12.getName(), C12);
+		mapInformation.put(C13.getName(), C13);
+		mapInformation.put(C14.getName(), C14);
+		mapInformation.put(C15.getName(), C15);
+		mapInformation.put(C16.getName(), C16);
+		mapInformation.put(C17.getName(), C17);
+		mapInformation.put(C18.getName(), C18);
+		mapInformation.put(C19.getName(), C19);
+		mapInformation.put(C20.getName(), C20);
+		mapInformation.put(C21.getName(), C21);
+		mapInformation.put(C22.getName(), C22);
+		mapInformation.put(C23.getName(), C23);
+		mapInformation.put(C24.getName(), C24);
+		mapInformation.put(C25.getName(), C25);
+		mapInformation.put(C26.getName(), C26);
+		mapInformation.put(C27.getName(), C27);
+		mapInformation.put(C28.getName(), C28);
+		mapInformation.put(C29.getName(), C29);
+		mapInformation.put(C30.getName(), C30);
+		mapInformation.put(C31.getName(), C31);
+		mapInformation.put(C32.getName(), C32);
+		
+		LinkedList<Location> a = searchroute("Main Street USA","Center Country");
+		Iterator<Location> b = a.iterator();
+		String s = "";
+		for(int i=0;i<a.size();i++){
+			s = s+ b.next().name+" - ";
+		}
+		System.out.println(s);
+	}
+}

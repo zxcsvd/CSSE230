@@ -1,0 +1,164 @@
+import java.awt.EventQueue;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class Band extends JFrame{
+
+//	private JFrame frame;
+
+	/**
+	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Band window = new Band();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 * @param string 
+	 */
+	public Band(String string) {
+		
+		Procedures temp = new Procedures();
+		ResultSet t = temp.Detail(string, "Band");
+		String country = null;
+		String time = null;
+		try {
+			while(t!= null && t.next()){
+//				System.out.println(rs.getString("Name"));
+				country = t.getString("Country");
+				time = t.getString("Founded");
+			}
+		}catch (SQLException e) {
+			
+			System.out.println(e);
+		}
+		initialize(string, country, time);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize(String name, String country, String founded) {
+		DefaultListModel model1 = new DefaultListModel();
+//		JList resultList = new JList(model1);
+//		frame = new JFrame();
+		this.setBounds(100, 100, 721, 469);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setBounds(88, 53, 44, 25);
+		this.getContentPane().add(lblNewLabel);
+		
+		JLabel lblCountry = new JLabel("Country");
+		lblCountry.setBounds(68, 87, 54, 25);
+		this.getContentPane().add(lblCountry);
+		
+		JLabel lblDateFounded = new JLabel("Date Founded");
+		lblDateFounded.setBounds(36, 122, 86, 26);
+		this.getContentPane().add(lblDateFounded);
+		
+		JLabel lblTour = new JLabel("Tour");
+		lblTour.setBounds(81, 179, 31, 15);
+		this.getContentPane().add(lblTour);
+		
+		JList tourL = new JList(model1);
+		Procedures a1 = new Procedures();
+		ResultSet rs1 = a1.Relation(name,"Band", "Tour" );
+		try {
+			while(rs1!= null && rs1.next()){
+				model1.addElement(rs1.getString("Name"));
+			}
+		}catch (SQLException e) {
+			
+			System.out.println(e);
+		}
+		tourL.setBounds(124, 178, 99, 138);
+		this.getContentPane().add(tourL);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(223, 179, 17, 137);
+		this.getContentPane().add(scrollBar);
+		
+		JLabel lblMember = new JLabel("Member");
+		lblMember.setBounds(260, 179, 50, 15);
+		this.getContentPane().add(lblMember);
+		
+		JList memL = new JList();
+		memL.setBounds(312, 178, 99, 138);
+		this.getContentPane().add(memL);
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(411, 179, 17, 137);
+		this.getContentPane().add(scrollBar_1);
+		
+		JLabel lblAlbum = new JLabel("Album");
+		lblAlbum.setBounds(463, 180, 31, 15);
+		this.getContentPane().add(lblAlbum);
+		
+		JList albumL = new JList();
+		albumL.setBounds(506, 179, 99, 138);
+		this.getContentPane().add(albumL);
+		
+		JScrollBar scrollBar_2 = new JScrollBar();
+		scrollBar_2.setBounds(605, 180, 17, 137);
+		this.getContentPane().add(scrollBar_2);
+		
+		JButton btnNewButton = new JButton("View Tour");
+		btnNewButton.setBounds(124, 327, 93, 23);
+		this.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("View Member");
+		btnNewButton_1.setBounds(312, 326, 106, 23);
+		this.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("View Album");
+		btnNewButton_2.setBounds(506, 327, 93, 23);
+		this.getContentPane().add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Back");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SearchAlbum window = new SearchAlbum();
+				window.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton_3.setBounds(318, 369, 99, 36);
+		this.getContentPane().add(btnNewButton_3);
+		
+		JLabel nameLabel = new JLabel("");
+		nameLabel.setBounds(142, 58, 168, 15);
+		getContentPane().add(nameLabel);
+		
+		JLabel countryLabel = new JLabel("");
+		countryLabel.setBounds(142, 92, 168, 15);
+		getContentPane().add(countryLabel);
+		
+		JLabel dateLabel = new JLabel("");
+		dateLabel.setBounds(142, 128, 168, 15);
+		getContentPane().add(dateLabel);
+	}
+}

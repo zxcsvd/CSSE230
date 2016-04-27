@@ -1,0 +1,75 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.Font;
+
+
+public class Member extends JFrame{
+
+//	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Member window = new Member();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 */
+	public Member() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+//		frame = new JFrame();
+		this.setBounds(100, 100, 450, 300);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name:");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(87, 73, 54, 15);
+		this.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Position:");
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel_1.setBounds(87, 130, 54, 15);
+		this.getContentPane().add(lblNewLabel_1);
+		
+		JButton bkButton = new JButton("Back");
+		bkButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		bkButton.setBounds(172, 184, 92, 30);
+		this.getContentPane().add(bkButton);
+		
+		JLabel nameLabel = new JLabel("");
+		nameLabel.setBounds(172, 59, 170, 15);
+		this.getContentPane().add(nameLabel);
+		
+		JLabel nameLabel2 = new JLabel("");
+		nameLabel2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		nameLabel2.setBounds(182, 72, 160, 15);
+		this.getContentPane().add(nameLabel2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel_3.setBounds(182, 129, 160, 15);
+		this.getContentPane().add(lblNewLabel_3);
+	}
+
+}

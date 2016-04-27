@@ -1,0 +1,120 @@
+import java.awt.EventQueue;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JList;
+
+
+public class SearchAlbum extends JFrame{
+	DefaultListModel model = new DefaultListModel();
+	JList list = new JList(model);
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					SearchAlbum window = new SearchAlbum();
+//					window.frmSearch.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 */
+	public SearchAlbum() {
+		initialize();
+	}
+	public void readData(){
+		
+	}
+	
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	
+	public void close(){
+		this.setVisible(false);
+	}
+	
+	private void initialize() {
+//		frmSearch = new JFrame();
+		this.setTitle("Search");
+		this.setBounds(100, 100, 494, 278);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		textField.setBounds(69, 86, 201, 32);
+		this.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		
+		
+		JScrollPane pane = new JScrollPane(list);
+		model.addElement("Album");
+		model.addElement("Song");
+		model.addElement("Band");
+		model.addElement("Member");
+		model.addElement("Tour");
+		list.setBounds(300, 86, 143, 115);
+		getContentPane().add(list);
+		
+		JButton btnNewButton = new JButton("Search");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selected = list.getSelectedValue().toString();
+				if(selected == null){
+					System.out.println("Please select a type.");
+				}
+				else{
+					Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+					Matcher m = p.matcher(textField.getText());
+					boolean b = m.find();
+					if(!b){
+						Result window = new Result(textField.getText(), selected);
+						window.setVisible(true);
+						close();
+					}else{
+						System.out.println("keyword contains special characters");
+					}
+				}
+			}
+		});
+		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnNewButton.setBounds(79, 146, 181, 55);
+		this.getContentPane().add(btnNewButton);
+		
+		JLabel lblKeyword = new JLabel("Keyword:");
+		lblKeyword.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblKeyword.setBounds(72, 54, 54, 15);
+		this.getContentPane().add(lblKeyword);
+		
+
+		
+		JLabel lblType = new JLabel("Type:");
+		lblType.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblType.setBounds(300, 53, 54, 15);
+		getContentPane().add(lblType);
+	}
+}

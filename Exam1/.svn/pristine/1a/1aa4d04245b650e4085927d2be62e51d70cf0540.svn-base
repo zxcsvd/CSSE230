@@ -1,0 +1,154 @@
+import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
+import org.junit.Test;
+
+/**
+ * Test cases.
+ * 
+ * @author Matt Boutell. Created March 29, 2014.
+ */
+public class ArrayListMinPQTest {
+
+	private static int points = 0; 
+	
+	/**
+	 * Test method for {@link ArrayListMinPQ#insert(java.lang.Comparable)}.
+	 */
+	@Test
+	public void testInsertAndSize() {
+		ArrayListMinPQ<String> pq = new ArrayListMinPQ<String>();
+		assertEquals(0, pq.size());
+		pq.insert("this");
+		assertEquals(1, pq.size());
+		pq.insert("unit");
+		assertEquals(2, pq.size());
+		pq.insert("test");
+		assertEquals(3, pq.size());
+		pq.insert("isnt");
+		assertEquals(4, pq.size());
+		pq.insert("foolproof");
+		assertEquals(5, pq.size());
+		points += 3;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#peekMin()}.
+	 */
+	@Test
+	public void testPeekMinEmpty() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		assertNull(pq.peekMin());
+		points += 1;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#peekMin()}.
+	 */
+	@Test
+	public void testPeekMin() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		pq.insert(10);
+		pq.insert(3);
+		pq.insert(15);
+		assertEquals(new Integer(3), pq.peekMin());
+		points += 3;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#peekMin()}.
+	 */
+	@Test
+	public void testPeekMinStrings() {
+		ArrayListMinPQ<String> pq = new ArrayListMinPQ<String>();
+		pq.insert("outstanding");
+		pq.insert("work");
+		pq.insert("on");
+		pq.insert("this");
+		pq.insert("test");
+		assertEquals("on", pq.peekMin());
+		points += 3;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#removeMin()}.
+	 */
+	@Test
+	public void testRemoveMinEmpty() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		assertNull(pq.removeMin());
+		points += 1;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#removeMin()}.
+	 */
+	@Test
+	public void testRemoveMin() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		pq.insert(10);
+		pq.insert(3);
+		pq.insert(15);
+		pq.insert(12);
+		assertEquals(new Integer(3), pq.removeMin());
+		assertEquals(new Integer(10), pq.removeMin());
+		assertEquals(new Integer(12), pq.removeMin());
+		assertEquals(new Integer(15), pq.removeMin());
+		assertNull(pq.removeMin());
+		points += 4;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#removeMin()}.
+	 */
+	@Test
+	public void testRemoveMinStrings() {
+
+		ArrayListMinPQ<String> pq = new ArrayListMinPQ<String>();
+		pq.insert("outstanding");
+		pq.insert("work");
+		pq.insert("on");
+		pq.insert("this");
+		pq.insert("test");
+		assertEquals("on", pq.removeMin());
+		assertEquals("outstanding", pq.removeMin());
+		assertEquals("test", pq.removeMin());
+		assertEquals("this", pq.removeMin());
+		assertEquals("work", pq.removeMin());
+		assertNull(pq.removeMin());
+		points += 5;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#isEmpty()}.
+	 */
+	@Test
+	public void testIsEmpty() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		assertTrue(pq.isEmpty());
+		pq.insert(10);
+		assertFalse(pq.isEmpty());
+		points += 1;
+	}
+
+	/**
+	 * Test method for {@link ArrayListMinPQ#clear()}.
+	 */
+	@Test
+	public void testClear() {
+		ArrayListMinPQ<Integer> pq = new ArrayListMinPQ<Integer>();
+		pq.insert(10);
+		pq.insert(3);
+		pq.insert(15);
+		pq.insert(12);
+		pq.clear();
+		assertEquals(0, pq.size());
+		points += 1;
+	}
+	
+	@AfterClass
+	public static void displayPoints() {
+		System.out.printf("MinPQ:     earned %d/22 points on the unit tests\n", points);
+		System.out.printf("           The other 8 points are for meeting efficiency requirements (checked manually)\n");
+	}
+}

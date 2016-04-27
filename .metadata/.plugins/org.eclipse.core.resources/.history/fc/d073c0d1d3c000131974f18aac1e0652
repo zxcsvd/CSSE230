@@ -1,0 +1,163 @@
+import java.util.ArrayList;
+
+/**
+ * Exam 2. Tree methods.
+ * 
+ * @author Matt Boutell and <<<TODO: YOUR NAME HERE>>>. Spring, 2014.
+ * @param <T>
+ */
+
+/*
+ * TODO: 0 Directions: Implement the given methods. See the javadoc for details.
+ */
+public class BinarySearchTree<T extends Comparable<? super T>> {
+
+	BinaryNode root;
+
+	private final BinaryNode NULL_NODE = new BinaryNode(null);
+
+	public BinarySearchTree() {
+		root = NULL_NODE;
+	}
+
+	/**
+	 * @return The sum of the heights of every node in the tree. Don't count
+	 *         NULL_NODEs.
+	 */
+	public int getSumOfHeights() {
+		int count = 0;
+		return this.root.getSumOfHeights(this.root) ;
+	}
+
+	/**
+	 * Recall that the depth of a node is number of edges in a path from the
+	 * node to the root. Returns the depth of the given item in the tree. If the
+	 * item isn't in the tree, then it returns -1.
+	 * 
+	 * @param item
+	 * @return The depth, or -1 if it isn't in the tree.
+	 */
+	public int getDepth(T item) {
+		BinaryNode current = this.root;
+
+		this.root.setDepth(0);
+		
+		Boolean find = true;
+		int a = this.root.find(this.root, item);
+		if(a == 0){
+			return 1;
+		}else{
+			return a;
+		}
+	}
+
+	/**
+	 * A full node is one with two non-null children. Counts how many full nodes
+	 * this Binary Tree has.
+	 * 
+	 * @return The number of full nodes in this tree.
+	 */
+	public int countFullNodes() {
+		// TODO: 3a Write this method or the other full node method. This one is
+		// easier, but worth fewer points.
+		return -17;
+	}
+
+	/**
+	 * A full node is one with two non-null children. Return an ArrayList
+	 * containing the data from all the full nodes in this tree. The order of
+	 * the full nodes must be the same order they would appear in a pre-order
+	 * traversal of the tree.
+	 * 
+	 * @return An array list of the full node's data, in pre-order
+	 * 
+	 */
+	public ArrayList<T> getFullNodeList() {
+		// TODO: 3b Write this method or the other full node method. This one is
+		// harder, but worth more points.
+		return null;
+	}
+
+	public void insert(T e) {
+		root = root.insert(e);
+	}
+
+	// /////////////// BinaryNode
+	public class BinaryNode {
+
+		public T data;
+		public BinaryNode left;
+		public BinaryNode right;
+		public int depth;
+
+		public BinaryNode(T element) {
+			this.data = element;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+		
+		public void setDepth(int i){
+			this.depth = i;
+			int a = i;
+			if (this.left == null && this.right == null) {
+				// do nothing
+			} else if (this.left == null) { // only set the right child's node
+				this.right.setDepth(a + 1);
+			} else if (this.right == null) { // only set the left child's node
+				this.left.setDepth(a + 1);
+			} else {// need to set them both
+				this.left.setDepth(a + 1);
+				this.right.setDepth(a + 1);
+			}
+		}
+
+		public BinaryNode insert(T e) {
+			if (this == NULL_NODE) {
+				return new BinaryNode(e);
+			} else if (e.compareTo(data) < 0) {
+				left = left.insert(e);
+			} else if (e.compareTo(data) > 0) {
+				right = right.insert(e);
+			} else {
+				// do nothing
+			}
+			return this;
+		}
+		
+		public int getSumOfHeights (BinaryNode current){
+			if(current.left.data!=null && current.right.data!=null){
+				return this.getSumOfHeights(current.left) + this.getSumOfHeights(current.right) + 1 +  this.getSumOfHeights(current.left) + this.getSumOfHeights(current.right);
+			}
+			else if(current.left.data== null && current.right.data == null){
+				return 0;
+			}
+			else if(current.left.data != null && current.right.data == null){
+				return this.getSumOfHeights(current.left)+1 + this.getSumOfHeights(current.left);
+			}
+			else if(current.left.data == null && current.right.data !=null){
+				return this.getSumOfHeights(current.right)+1+this.getSumOfHeights(current.right);
+			}
+			return 0;
+		}
+		
+		public int find(BinaryNode current, T target){
+			if(current.data.equals(target)){
+				return current.depth;
+			}
+			if(current.left.data!=null && current.right.data!=null){
+				return this.getSumOfHeights(current.left) + this.getSumOfHeights(current.right);
+			}
+			else if(current.left.data== null && current.right.data == null){
+				return 0;
+			}
+			else if(current.left.data != null && current.right.data == null){
+				return this.getSumOfHeights(current.left);
+			}
+			else if(current.left.data == null && current.right.data !=null){
+				return this.getSumOfHeights(current.right);
+			}
+			return 0;
+		}
+
+	}
+}

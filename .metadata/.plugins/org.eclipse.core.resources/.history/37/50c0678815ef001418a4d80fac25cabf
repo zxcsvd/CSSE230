@@ -1,0 +1,111 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JButton;
+
+
+public class Band {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Band window = new Band();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Band() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 721, 469);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setBounds(88, 53, 44, 25);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblCountry = new JLabel("Country");
+		lblCountry.setBounds(68, 87, 54, 25);
+		frame.getContentPane().add(lblCountry);
+		
+		JLabel lblDateFounded = new JLabel("Date Founded");
+		lblDateFounded.setBounds(36, 122, 86, 26);
+		frame.getContentPane().add(lblDateFounded);
+		
+		JLabel lblTour = new JLabel("Tour");
+		lblTour.setBounds(81, 179, 31, 15);
+		frame.getContentPane().add(lblTour);
+		
+		JList list = new JList();
+		list.setBounds(124, 178, 99, 138);
+		frame.getContentPane().add(list);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(223, 179, 17, 137);
+		frame.getContentPane().add(scrollBar);
+		
+		JLabel lblMember = new JLabel("Member");
+		lblMember.setBounds(260, 179, 50, 15);
+		frame.getContentPane().add(lblMember);
+		
+		JList list_1 = new JList();
+		list_1.setBounds(312, 178, 99, 138);
+		frame.getContentPane().add(list_1);
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(411, 179, 17, 137);
+		frame.getContentPane().add(scrollBar_1);
+		
+		JLabel lblAlbum = new JLabel("Album");
+		lblAlbum.setBounds(463, 180, 31, 15);
+		frame.getContentPane().add(lblAlbum);
+		
+		JList list_2 = new JList();
+		list_2.setBounds(506, 179, 99, 138);
+		frame.getContentPane().add(list_2);
+		
+		JScrollBar scrollBar_2 = new JScrollBar();
+		scrollBar_2.setBounds(605, 180, 17, 137);
+		frame.getContentPane().add(scrollBar_2);
+		
+		JButton btnNewButton = new JButton("View Tour");
+		btnNewButton.setBounds(124, 327, 93, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("View Member");
+		btnNewButton_1.setBounds(312, 326, 106, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("View Album");
+		btnNewButton_2.setBounds(506, 327, 93, 23);
+		frame.getContentPane().add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Back");
+		btnNewButton_3.setBounds(318, 369, 99, 36);
+		frame.getContentPane().add(btnNewButton_3);
+	}
+}

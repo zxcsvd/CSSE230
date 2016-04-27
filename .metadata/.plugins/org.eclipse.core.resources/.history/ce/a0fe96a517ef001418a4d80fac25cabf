@@ -1,0 +1,115 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JButton;
+
+
+public class Album extends JFrame{
+
+//	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Album window = new Album();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 * @param string 
+	 */
+	public Album(String string) {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+//		frame = new JFrame();
+		this.setBounds(100, 100, 670, 427);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setBounds(38, 51, 83, 15);
+		this.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Genre");
+		lblNewLabel_1.setBounds(38, 76, 83, 23);
+		this.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Release Date");
+		lblNewLabel_2.setBounds(38, 109, 83, 15);
+		this.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblBand = new JLabel("Band");
+		lblBand.setBounds(65, 146, 31, 15);
+		this.getContentPane().add(lblBand);
+		
+		JList list = new JList();
+		list.setBounds(108, 145, 99, 138);
+		this.getContentPane().add(list);
+		
+		JLabel lblSongs = new JLabel("Songs");
+		lblSongs.setBounds(244, 146, 50, 15);
+		this.getContentPane().add(lblSongs);
+		
+		JList list_1 = new JList();
+		list_1.setBounds(296, 145, 99, 138);
+		this.getContentPane().add(list_1);
+		
+		JLabel lblReview = new JLabel("Review");
+		lblReview.setBounds(424, 146, 56, 15);
+		this.getContentPane().add(lblReview);
+		
+		JList list_2 = new JList();
+		list_2.setBounds(490, 146, 99, 138);
+		this.getContentPane().add(list_2);
+		
+		JButton btnViewBand = new JButton("View Band");
+		btnViewBand.setBounds(108, 294, 93, 23);
+		this.getContentPane().add(btnViewBand);
+		
+		JButton btnViewSong = new JButton("View Song");
+		btnViewSong.setBounds(296, 293, 106, 23);
+		this.getContentPane().add(btnViewSong);
+		
+		JButton btnViewReview = new JButton("View Review");
+		btnViewReview.setBounds(490, 294, 106, 23);
+		this.getContentPane().add(btnViewReview);
+		
+		JButton button_3 = new JButton("Back");
+		button_3.setBounds(409, 327, 146, 36);
+		this.getContentPane().add(button_3);
+		
+		JButton btnGiveComment = new JButton("Give Comment");
+		btnGiveComment.setBounds(150, 327, 146, 36);
+		this.getContentPane().add(btnGiveComment);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBounds(153, 51, 436, 15);
+		this.getContentPane().add(lblNewLabel_3);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(153, 80, 436, 15);
+		this.getContentPane().add(label);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setBounds(153, 109, 436, 15);
+		this.getContentPane().add(label_1);
+	}
+}

@@ -1,0 +1,39 @@
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Stack;
+
+
+public class Location {
+	public Coordinate c;
+	public Hashtable<String, Location> nearByLocation = new Hashtable<String, Location>();
+	public String name;
+	public boolean isCross = false;
+	public Location(Coordinate c, String name, boolean isCross){
+		this.c = c;
+		this.name = name;
+		this.isCross = isCross;
+	}
+	public int getX(){
+		return this.c.getX();
+	}
+	public int getY(){
+		return this.c.getY();
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public Coordinate getCoordinate(){
+		return this.c;
+	}
+	
+	public void setNearByLocation(ArrayList<Location> listOfNearByLocations){
+		for  (Location tempLocation : listOfNearByLocations){
+			String tempString = tempLocation.getName();
+			nearByLocation.put(tempString, tempLocation);
+		}
+	}
+	
+	
+}

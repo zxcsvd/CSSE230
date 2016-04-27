@@ -1,0 +1,119 @@
+package circularQueue;
+
+import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
+
+/**
+ * A circular queue that grows as needed.
+ * 
+ * @author Matt Boutell and <<<your name here>>>
+ * @param <T>
+ */
+public class GrowableCircularArrayQueue<T> {
+	private static final int INITIAL_CAPACITY = 5;
+
+	private T[] array;
+	private Class<T> type;
+
+	/**
+	 * Creates an empty queue with an initial capacity of 5
+	 * 
+	 * @param type
+	 *            So that an array of this type can be constructed.
+	 */
+	public GrowableCircularArrayQueue(Class<T> type) {
+		this.type = type;
+		// This is a workaround due to a limitation Java has with
+		// constructing generic arrays.
+		this.array = (T[]) Array.newInstance(this.type, INITIAL_CAPACITY);
+	}
+
+	/**
+	 * Removes all the items from this queue and everything back to the initial
+	 * state, including setting its capacity back to the initial capacity.
+	 */
+	public void clear() {
+		// TODO: implement this method
+	}
+
+	private void resize() {
+		// You'll want to write this helper method.
+
+	}
+
+	/**
+	 * Adds the given item to the tail of the queue, resizing the internal array
+	 * if needed.
+	 * 
+	 * @param item
+	 */
+	public void enqueue(T item) {
+		// TODO: implement this method
+
+	}
+
+	/**
+	 * Removes and returns the item at the head of the queue.
+	 * 
+	 * @return The item at the head of the queue.
+	 * @throws NoSuchElementException
+	 *             If the queue is empty.
+	 */
+	public T dequeue() {
+		// TODO: implement this method
+		return null;
+	}
+
+	/**
+	 * Returns the item at the head of the queue without mutating the queue.
+	 * 
+	 * @return The item at the head of the queue.
+	 * @throws NoSuchElementException
+	 *             If the queue is empty.
+	 */
+	public T peek() throws NoSuchElementException {
+		// TODO: implement this method
+		return null;
+	}
+
+	/**
+	 * @return True if and only if the queue contains no items.
+	 */
+	public boolean isEmpty() {
+		// TODO: implement this method
+		return false;
+	}
+
+	/**
+	 * @return The number of items in this queue.
+	 */
+	public int size() {
+		// TODO: implement this method
+		return -17;
+	}
+
+	/**
+	 * Searches for the given item in this queue.
+	 * 
+	 * @param item
+	 * @return True if the item is contained within the queue.
+	 */
+	public boolean contains(T item) {
+		// TODO: implement this method
+		return false;
+	}
+
+	/**
+	 * Displays the contents of the queue in insertion order, with the
+	 * most-recently inserted one last, in other words, not wrapped around. Each
+	 * adjacent pair will be separated by a comma and a space, and the whole
+	 * contents will be bounded by square brackets. See the unit tests for
+	 * examples.
+	 */
+	@Override
+	public String toString() {
+		// TODO: implement this method
+		return "replace me";
+	}
+
+}

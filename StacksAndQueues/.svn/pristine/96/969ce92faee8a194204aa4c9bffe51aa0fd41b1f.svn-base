@@ -1,0 +1,129 @@
+package evaluator;
+
+import java.util.Stack;
+
+public class InfixEvaluator extends Evaluator {
+
+	@Override
+	public int evaluate(String expression) throws ArithmeticException {
+		String temp = convertToPostfix(expression);
+//		PostfixEvaluator post = new PostfixEvaluator();
+//		return post.evaluate(expression);
+		return 0;
+	}
+
+	public String convertToPostfix(String exp) {
+		// TODO Auto-generated method stub
+		int opCounter = 0;
+		int numCounter =0;
+		String result = "";
+		Stack<Character> charStack =  new Stack<Character>();
+		if(exp.length()<=0){
+			throw new ArithmeticException();
+		}
+		for(int i=0; i<exp.length(); i++){
+			String temp = exp.substring(i, i+1);
+			
+			if(isOperator(temp)){
+				opCounter++;
+				if(charStack.isEmpty()){
+					charStack.push(temp.charAt(0));
+				}
+				else{
+					if(getLevel(temp) > getLevel(charStack.peek()+"")){
+						charStack.push(temp.charAt(0));
+					}
+					else{
+						char a =' ';
+						while(getLevel(temp) <= getLevel(charStack.peek()+"") && charStack.isEmpty() == false){
+//							a = charStack.pop();
+							if(a==')'){
+								while(charStack.peek()!='('){
+									a=charStack.pop();
+									result = result + a + " ";
+								}
+								charStack.pop();
+							}
+							if( a != '(' && a!= ')' ){
+								result = result + a + " ";
+							}
+						}
+						charStack.push(temp.charAt(0));
+					}
+				}
+			}
+			
+			else if(isLeftPar(temp)){
+				charStack.push(temp.charAt(0));
+			}
+			else if(isRightPar(temp)){
+				charStack.push(temp.charAt(0));
+			}
+			else if(isNum(temp)){
+				numCounter++;
+				result = result + temp;
+				
+			}
+			else if(temp.equals(" ") && result.length()>=1){
+				if(result.substring(result.length()-1, result.length())!= " "){
+					result = result + " ";
+				}
+			}
+		}
+		if(numCounter - opCounter != 1){
+			throw new ArithmeticException();
+		}
+		
+		return null;
+	}
+	
+	public boolean isOperator(String testString){
+		
+		if(testString.equals("+") || testString.equals("-") || testString.equals("*") || testString.equals("/") || 
+				 testString.equals("^")){
+			return true;
+		}
+		return false;
+		
+	}
+	
+	public Boolean isLeftPar(String testString){
+		if(testString.equals("(")){
+			return true;
+		}
+		return false;
+	}
+	
+	public Boolean isRightPar(String testString){
+		if(testString.equals(")")){
+			return true;
+		}
+		return false;
+	}
+	
+	public int getLevel(String operation){
+		if(operation.equals("+") || operation.equals("-")){
+			return 1;
+		}
+		else if(operation.equals("*") || operation.equals("/")){
+			return 2;
+		}
+		else if(operation.equals("^")){
+			return 3;
+		}
+		else if(operation.equals("(")){
+			return 0;
+		}
+		else if(operation.equals(")")){
+			return 5;
+		}
+		return 0;
+	}
+
+	public Boolean isNum(String num){
+		if((int)num.charAt(0)>= 48 && (int)num.charAt(0)<= 57){
+			return true;
+		}
+		return false;
+	}
+}

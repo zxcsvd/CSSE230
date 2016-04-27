@@ -1,0 +1,69 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.Font;
+
+
+public class Songs {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Songs window = new Songs();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Songs() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel.setBounds(85, 55, 54, 15);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_2 = new JLabel("Length");
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_2.setBounds(85, 96, 54, 23);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_4 = new JLabel("URL");
+		lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_4.setBounds(85, 146, 40, 23);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+		JButton btnNewButton = new JButton("Go URL");
+		btnNewButton.setBounds(96, 194, 83, 30);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Back");
+		btnNewButton_1.setBounds(242, 194, 83, 30);
+		frame.getContentPane().add(btnNewButton_1);
+	}
+
+}

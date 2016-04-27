@@ -1,0 +1,180 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JButton;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class Album extends JFrame{
+
+//	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Album window = new Album();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the application.
+	 * @param string 
+	 */
+	public Album(String string) {
+		Procedures temp = new Procedures();
+		ResultSet t = temp.Detail(string, "Album");
+		String genre = null;
+		String release = null;
+		try {
+			while(t!= null && t.next()){
+//				System.out.println(rs.getString("Name"));
+				genre = t.getString("Genre");
+				release = t.getString("Release");
+			}
+		}catch (SQLException e) {
+			
+			System.out.println(e);
+		}
+		initialize(string, genre, release);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize(String name, String genre, String release) {
+//		frame = new JFrame();
+		this.setBounds(100, 100, 670, 427);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(38, 24, 83, 15);
+		this.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Genre");
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel_1.setBounds(38, 74, 83, 23);
+		this.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Release Date");
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel_2.setBounds(38, 107, 83, 15);
+		this.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblBand = new JLabel("Band");
+		lblBand.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblBand.setBounds(38, 49, 31, 15);
+		this.getContentPane().add(lblBand);
+		
+		JLabel lblSongs = new JLabel("Songs");
+		lblSongs.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblSongs.setBounds(119, 146, 50, 15);
+		this.getContentPane().add(lblSongs);
+		
+		JList list_1 = new JList();
+		//Similar to Band class, need to add details into the list 
+		list_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		list_1.setBounds(171, 145, 99, 138);
+		this.getContentPane().add(list_1);
+		
+		JLabel lblReview = new JLabel("Review");
+		lblReview.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblReview.setBounds(299, 146, 56, 15);
+		this.getContentPane().add(lblReview);
+		
+		JList list_2 = new JList();
+		//Similar to Band class, need to add details into the list 
+		list_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		list_2.setBounds(365, 146, 201, 138);
+		this.getContentPane().add(list_2);
+		
+		JButton btnViewBand = new JButton("View Band");
+		btnViewBand.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnViewBand.setBounds(71, 327, 121, 36);
+		this.getContentPane().add(btnViewBand);
+		
+		JButton btnViewSong = new JButton("View Song");
+		btnViewSong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Similar to Band class
+				
+			}
+		});
+		btnViewSong.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnViewSong.setBounds(171, 293, 106, 23);
+		this.getContentPane().add(btnViewSong);
+		
+		JButton btnViewReview = new JButton("View Review");
+		btnViewReview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Similar to Band class, but need to call review class
+				
+			}
+		});
+		btnViewReview.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnViewReview.setBounds(412, 294, 106, 23);
+		this.getContentPane().add(btnViewReview);
+		
+		JButton button_3 = new JButton("Back");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchAlbum window = new SearchAlbum();
+				window.setVisible(true);
+				dispose();
+			}
+		});
+		button_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		button_3.setBounds(434, 327, 135, 36);
+		this.getContentPane().add(button_3);
+		
+		JButton btnGiveComment = new JButton("Give Comment");
+		btnGiveComment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Comment window = new Comment();
+				window.setVisible(true);
+				dispose();
+			}
+		});
+		btnGiveComment.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnGiveComment.setBounds(244, 327, 146, 36);
+		this.getContentPane().add(btnGiveComment);
+		
+		JLabel nameLabel = new JLabel(name);
+		nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		nameLabel.setBounds(119, 24, 436, 15);
+		this.getContentPane().add(nameLabel);
+		
+		JLabel bandLabel = new JLabel("");
+		bandLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		bandLabel.setBounds(119, 49, 436, 15);
+		this.getContentPane().add(bandLabel);
+		
+		JLabel gebreLabel = new JLabel(genre);
+		gebreLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		gebreLabel.setBounds(119, 82, 436, 15);
+		this.getContentPane().add(gebreLabel);
+		
+		JLabel releaseLabel = new JLabel(release);
+		releaseLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		releaseLabel.setBounds(119, 107, 436, 15);
+		getContentPane().add(releaseLabel);
+	}
+}

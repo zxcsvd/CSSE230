@@ -1,0 +1,59 @@
+import javax.swing.JFrame;
+
+/**
+ * A wrapper class for binary trees that can display the wrapped tree in a
+ * window.
+ * 
+ * @author Curt Clifton. Created Jan 24, 2008.
+ */
+public class DisplayableBinaryTree {
+
+	private int width;
+
+	private int height;
+
+	private BinaryTree tree;
+
+	/**
+	 * Constructs a new displayable binary tree, set to default to the given
+	 * window size for display.
+	 * 
+	 * @param tree
+	 * @param windowWidth
+	 *            in pixels
+	 * @param windowHeight
+	 *            in pixels
+	 */
+	public DisplayableBinaryTree(BinaryTree tree, int windowWidth,
+			int windowHeight) {
+		this.width = windowWidth;
+		this.height = windowHeight;
+		this.tree = tree;
+		// TODO Auto-generated constructor stub.
+	}
+
+	/**
+	 * Creates a new window, using the current size information stored in this,
+	 * and renders the current state of the tree wrapped by this.
+	 */
+	public void display() {
+		JFrame window = new JFrame();
+		window.setSize(this.width, this.height);
+		// TODO Auto-generated method stub.
+
+	}
+
+	/**
+	 * Sets the default size for the next window displayed.
+	 * 
+	 * @param windowWidth
+	 *            in pixels
+	 * @param windowHeight
+	 *            in pixels
+	 */
+	public void setSize(int windowWidth, int windowHeight) {
+		this.width = windowWidth;
+		this.height = windowHeight;
+	}
+
+}
